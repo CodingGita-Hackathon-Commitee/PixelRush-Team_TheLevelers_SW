@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PawPal - On The Way</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    background: #e9e9e2;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .phone {
+    width: 332px;
+    min-height: 730px;
+    background: #f6f6f1;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 10px;
+  }
+
+  .logo {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #111;
+  }
+
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #27c76f;
+    animation: pulseDot 2s infinite;
+  }
+
+  @keyframes pulseDot {
+    0% { box-shadow: 0 0 0 0 rgba(39, 199, 111, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(39, 199, 111, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(39, 199, 111, 0); }
+  }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px;
+  }
+
+  .hero {
+    padding: 6px 0 16px;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease forwards;
+  }
+
+  .hero h1 {
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    color: #111;
+    margin-bottom: 6px;
+  }
+
+  .hero p {
+    font-size: 13.5px;
+    color: #888;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+
+  .status-card {
+    background: linear-gradient(145deg, #1f7a5c, #15543f);
+    border-radius: 18px;
+    padding: 22px 20px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 0.15s forwards;
+    box-shadow: 0 14px 30px rgba(21, 84, 63, 0.35);
+  }
+
+  .status-card::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+    border-radius: 50%;
+    animation: floatGlow 4s ease-in-out infinite;
+  }
+
+  @keyframes floatGlow {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-10px, 10px); }
+  }
+
+  .visit-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #a8d9c3;
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .visit-title {
+    font-size: 25px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .moving-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    position: relative;
+  }
+
+  .moving-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(74,222,128,0.6);
+    animation: ringExpand 1.6s ease-out infinite;
+  }
+
+  @keyframes ringExpand {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+
+  .visit-desc {
+    font-size: 13.5px;
+    color: #c6e5d7;
+    position: relative;
+    z-index: 2;
+  }
+
+  .eta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #d9f0e6;
+    color: #15543f;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 20px;
+    margin-bottom: 22px;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 0.3s forwards;
+  }
+
+  .eta-pill::before {
+    content: "🚗";
+    font-size: 12px;
+  }
+
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #999;
+    font-weight: 700;
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 0.4s forwards;
+  }
+
+  .timeline {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    width: 2px;
+    height: calc(100% - 16px);
+    background: #e0e0da;
+  }
+
+  .timeline-line-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #1f7a5c;
+    height: 0;
+    animation: fillLine 1.2s ease 0.6s forwards;
+  }
+
+  @keyframes fillLine {
+    to { height: 66%; }
+  }
+
+  .timeline-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeSlideUp 0.45s ease forwards;
+  }
+
+  .timeline-item:nth-child(2) { animation-delay: 0.5s; }
+  .timeline-item:nth-child(3) { animation-delay: 0.65s; }
+  .timeline-item:nth-child(4) { animation-delay: 0.8s; }
+  .timeline-item:nth-child(5) { animation-delay: 0.95s; }
+
+  .timeline-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .tl-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .tl-dot.done {
+    background: #1f7a5c;
+  }
+
+  .tl-dot.current {
+    background: #1f7a5c;
+    position: relative;
+  }
+
+  .tl-dot.current::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(31,122,92,0.4);
+    animation: ringExpand 1.5s ease-out infinite;
+  }
+
+  .tl-dot.pending {
+    background: #e0e0da;
+  }
+
+  .tl-text {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .tl-text.current-text {
+    font-weight: 700;
+    color: #111;
+  }
+
+  .tl-text.pending-text {
+    color: #bbb;
+  }
+
+  .tl-time {
+    font-size: 12.5px;
+    color: #999;
+  }
+
+  .tl-time.next {
+    color: #bbb;
+    font-style: italic;
+  }
+
+  .divider-line {
+    height: 1px;
+    background: #e0e0da;
+    margin: 4px 0 20px;
+  }
+
+ 
+  .arrive-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 1.05s forwards;
+  }
+
+  .arrive-desc {
+    font-size: 13.5px;
+    color: #888;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 1.15s forwards;
+  }
+
+  .care-note-btn {
+    display: inline-block;
+    border: 1.5px solid #1f7a5c;
+    color: #1f7a5c;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    margin-bottom: 24px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 1.25s forwards;
+  }
+
+  .care-note-btn:hover {
+    background: #1f7a5c;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  
+  .arrived-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #1f7a5c, #15543f);
+    border: none;
+    border-radius: 14px;
+    padding: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 14px 28px rgba(21, 84, 63, 0.35);
+    margin-bottom: 24px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 1.35s forwards;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .arrived-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 2.8s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -60%; }
+    100% { left: 120%; }
+  }
+
+  .arrived-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 34px rgba(21, 84, 63, 0.45);
+  }
+
+  .arrived-btn span {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .arrow-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    animation: slideArrow 1.5s ease-in-out infinite;
+  }
+
+  @keyframes slideArrow {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+  }
+
+  .bottom-nav {
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0 16px;
+    border-top: 1px solid #eee;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .nav-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .nav-item.active {
+    color: #1f7a5c;
+  }
+
+  .nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="header">
+    <div class="logo">pawpal</div>
+    <div class="status-dot"></div>
+  </div>
+
+  <div class="content">
+    <div class="hero">
+      <h1>You're not alone.</h1>
+      <p>Your care team is tracking the handoff.</p>
+    </div>
+
+    <div class="status-card">
+      <div class="visit-label">VISIT STATUS</div>
+      <div class="visit-title">
+        On the way <span class="moving-dot"></span>
+      </div>
+      <div class="visit-desc">PawCare 24×7 is expecting you.</div>
+    </div>
+
+    <div class="eta-pill">2.1A • 5 MIN</div>
+
+    <div class="section-label">LIVE CARE TIMELINE</div>
+
+    <div class="timeline">
+      <div class="timeline-line">
+        <div class="timeline-line-fill"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="tl-dot done"></div>
+          <div class="tl-text">Request sent</div>
+        </div>
+        <div class="tl-time">7:42 PM</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="tl-dot done"></div>
+          <div class="tl-text">Clinic accepted</div>
+        </div>
+        <div class="tl-time">7:43 PM</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="tl-dot current"></div>
+          <div class="tl-text current-text">You're on the way</div>
+        </div>
+        <div class="tl-time">7:45 PM</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="tl-dot pending"></div>
+          <div class="tl-text pending-text">Clinic check-in</div>
+        </div>
+        <div class="tl-time next">Next</div>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <div class="arrive-title">Before you arrive</div>
+    <div class="arrive-desc">Bring any packaging or item your pet may have eaten, if it is safe to do so.</div>
+
+    <button class="care-note-btn">Care Note</button>
+
+    <button class="arrived-btn">
+      <span>I've arrived</span>
+      <div class="arrow-circle">→</div>
+    </button>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h5v-6h4v6h5a1 1 0 001-1V10"/></svg>
+      Home
+    </div>
+    <div class="nav-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 000-7.6z"/></svg>
+      Care
+    </div>
+    <div class="nav-item active">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Visits
+    </div>
+    <div class="nav-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0114 0v1"/></svg>
+      Profile
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
