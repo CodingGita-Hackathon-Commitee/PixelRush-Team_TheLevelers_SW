@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>PawPal · Create your account</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="clinic">
+    <div class="app">
+        <header class="hero"><span class="paws" aria-hidden="true">🐾</span><span class="paws b"
+                aria-hidden="true">🐾</span>
+            <div class="logo"><i aria-hidden="true">🐾</i>PawPal</div>
+            <div class="tag">The right care, right when they need it.</div>
+            <h1>Create your account</h1>
+            <p>Add your pet after you sign up.</p>
+        </header>
+        <nav class="tabs" aria-label="Account type"><a href="signup-parent.html" class="">🐶 Pet parent</a><a
+                href="signup-clinic.html" class="on">🏥 Clinic</a></nav>
+        <form data-msg="Clinic account created 🎉">
+            <label for="n">Full name</label>
+            <div class="f"><input id="n" type="text" placeholder="Rittvik Pandey" autocomplete="name" required></div>
+            <label for="e">Email</label>
+            <div class="f"><input id="e" type="email" placeholder="milo@example.com" autocomplete="email" required>
+            </div>
+            <label for="p">Password</label>
+            <div class="f"><input id="p" type="password" placeholder="••••••••" minlength="8"
+                    autocomplete="current-password" required><button type="button" class="show">Show</button></div>
+            <p class="hint">At least 8 characters</p>
+            <p class="terms">By creating an account you agree to PawPal&#39;s <a href="#">terms</a> and <a
+                    href="#">privacy policy</a>.</p>
+            <div class="actions"><button class="btn primary" type="submit">Create account</button><a class="btn ghost"
+                    href="login-clinic.html">I already have an account</a></div>
+        </form>
+        <div id="toast" class="toast" role="status"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
