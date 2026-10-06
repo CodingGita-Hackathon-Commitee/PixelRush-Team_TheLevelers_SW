@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>PawPal</title>
+    <style>
+        :root {
+            --bg: #f6f6f6;
+            --card: #fff;
+            --ink: #1b1b2f;
+            --muted: #9a9aa5;
+            --hero: #1e4f48;
+            --mint: #2bbf94;
+            --coral: #ea6249;
+            --indigo: #6a63f0;
+            --amber: #f59e0b;
+            --okbg: #d9f6e8;
+            --okfg: #10805a;
+            --line: #e8e8ec;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        @media (prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #121418;
+                --card: #1c1f26;
+                --ink: #f1f1f5;
+                --muted: #8d90a0;
+                --line: #2a2e38
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #121418;
+            --card: #1c1f26;
+            --ink: #f1f1f5;
+            --muted: #8d90a0;
+            --line: #2a2e38
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif
+        }
+
+        .app {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 0 19px 96px;
+            position: relative
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 14px;
+            padding-top: 28px
+        }
+
+        h1 {
+            font-size: 28px;
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -.5px;
+            margin-top: 10px
+        }
+
+        .sub {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        .hero {
+            background: var(--hero);
+            color: #fff;
+            border-radius: 20px;
+            padding: 22px 21px;
+            margin-top: 26px
+        }
+
+        .hero .top {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: .4px;
+            color: #a9cbc4;
+            text-transform: uppercase
+        }
+
+        .hero h2 {
+            font-size: 25px;
+            line-height: 1.2;
+            font-weight: 800;
+            margin-top: 12px;
+            max-width: 260px
+        }
+
+        .spark {
+            flex: none;
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: var(--mint);
+            display: grid;
+            place-items: center;
+            margin-top: 8px
+        }
+
+        .hero p {
+            font-size: 13px;
+            color: #b5d0ca;
+            margin-top: 22px;
+            line-height: 1.5
+        }
+
+        .hero .foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px
+        }
+
+        .pill {
+            background: var(--mint);
+            color: #06382d;
+            font-weight: 700;
+            font-size: 12px;
+            border-radius: 99px;
+            padding: 10px 16px
+        }
+
+        .hero .foot span {
+            font-size: 12px;
+            color: #a9cbc4
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 34px
+        }
+
+        h3 {
+            font-size: 17px;
+            font-weight: 700
+        }
+
+        .manage {
+            color: var(--mint);
+            font-weight: 600;
+            font-size: 13px
+        }
+
+        .pets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+            margin-top: 14px
+        }
+
+        .pet {
+            background: var(--card);
+            border-radius: 18px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .06)
+        }
+
+        .av {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 700;
+            display: grid;
+            place-items: center;
+            font-size: 15px
+        }
+
+        .pet b {
+            display: block;
+            margin-top: 14px;
+            font-size: 15px
+        }
+
+        .pet small {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 8px
+        }
+
+        .pet small+small {
+            margin-top: 7px
+        }
+
+        .ok {
+            display: inline-block;
+            background: var(--okbg);
+            color: var(--okfg);
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 5px 10px;
+            margin-top: 10px
+        }
+
+        .sos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border: 0;
+            text-align: left;
+            font: inherit;
+            color: #fff;
+            background: var(--coral);
+            border-radius: 20px;
+            padding: 24px 22px;
+            margin-top: 22px;
+            box-shadow: 0 10px 22px rgba(234, 98, 73, .35);
+            cursor: pointer
+        }
+
+        .sos b {
+            display: block;
+            font-size: 17px
+        }
+
+        .sos span {
+            font-size: 13px;
+            opacity: .85;
+            display: block;
+            margin-top: 5px
+        }
+
+        .sos i {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .25);
+            display: grid;
+            place-items: center;
+            font-style: normal;
+            font-size: 18px
+        }
+
+        .sos:focus-visible,
+        .tab:focus-visible {
+            outline: 3px solid var(--ink);
+            outline-offset: 2px
+        }
+
+        .recent {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--card);
+            border-radius: 14px;
+            padding: 14px 14px;
+            margin-top: 14px;
+            font-size: 13.5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
+        }
+
+        .ic {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: #e9ebff;
+            display: grid;
+            place-items: center;
+            color: var(--indigo)
+        }
+
+        .note {
+            margin-top: 46px;
+            padding: 0 4px
+        }
+
+        .note div {
+            font-size: 16px;
+            color: var(--muted);
+            opacity: .7
+        }
+
+        .note b {
+            display: block;
+            font-size: 15px;
+            margin-top: 2px
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--card);
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px))
+        }
+
+        .tab {
+            background: none;
+            border: 0;
+            font: inherit;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--ink);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 14px;
+            cursor: pointer
+        }
+
+        .tab.on {
+            color: var(--mint)
+        }
+
+        svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app">
+        <div class="brand">pawpal</div>
+        <h1>Care, without the panic.</h1>
+        <p class="sub">One calm place for your pet's next step.</p>
+
+        <section class="hero">
+            <div class="top">
+                <div>
+                    <div class="eyebrow">When they can't tell you</div>
+                    <h2>You can still know what to.</h2>
+                </div>
+                <div class="spark"><svg style="stroke:#fff" viewBox="0 0 24 24">
+                        <path
+                            d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z" />
+                    </svg></div>
+            </div>
+            <p>PawPal helps you move from worry to the right care — in four taps.</p>
+            <div class="foot">
+                <div class="pill">4 IAP CARE</div><span>No forms. No hunting.</span>
+            </div>
+        </section>
+
+        <div class="row">
+            <h3>Your companions</h3><a class="manage" href="#">Manage</a>
+        </div>
+        <div class="pets">
+            <div class="pet">
+                <div class="av" style="background:var(--indigo)">M</div><b>Milo</b><small>Golden
+                    Retriever</small><small>3 yrs</small><span class="ok">Healthy</span>
+            </div>
+            <div class="pet">
+                <div class="av" style="background:var(--amber)">L</div><b>Luna</b><small>Indie Cat</small><small>2
+                    yrs</small><span class="ok">Healthy</span>
+            </div>
+        </div>
+
+        <button class="sos">
+            <div><b>My pet needs help</b><span>Start urgent care</span></div><i>🚨</i>
+        </button>
+
+        <h3 style="margin-top:34px">Recent care</h3>
+        <div class="recent">
+            <div class="ic"><svg viewBox="0 0 24 24">
+                    <path
+                        d="M18 2l4 4M17 7l3-3M19 9l-8.7 8.7a1 1 0 0 1-.7.3H7v-2.6a1 1 0 0 1 .3-.7L16 6M7 17l-4 4M10 14l2 2" />
+                </svg></div>Vaccination reminder • Tomorrow, 10:30 AM
+        </div>
+
+        <div class="note">
+            <div>Recent care</div><b>Get vaccinated tomorrow by 8AM</b>
+        </div>
+    </main>
+
+    <nav aria-label="Main">
+        <button class="tab on"><svg viewBox="0 0 24 24">
+                <path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" />
+            </svg>Home</button>
+        <button class="tab"><svg viewBox="0 0 24 24">
+                <path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z" />
+            </svg>Care</button>
+        <button class="tab"><svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18M8 15l2.5 2.5L16 13" />
+            </svg>Visits</button>
+        <button class="tab"><svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+            </svg>Profile</button>
+    </nav>
+</body>
+
+</html>
